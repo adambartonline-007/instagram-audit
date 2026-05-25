@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Audit Instagram — @adambartnikinsta</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0e0e0e;
+    --white: #f7f5f0;
+    --accent: #d4f53c;
+    --accent2: #ff6b35;
+    --gray: #888;
+    --light: #1a1a1a;
+    --border: rgba(255,255,255,0.08);
+    --red: #ff4d4d;
+    --green: #3cffa0;
+    --yellow: #ffd166;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  /* HEADER */
+  .header {
+    background: var(--black);
+    border-bottom: 1px solid var(--border);
+    padding: 3rem 4rem 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 320px; height: 320px;
+    background: radial-gradient(circle, rgba(212,245,60,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .header-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin-bottom: 0.75rem;
+  }
+  .header h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    font-weight: 800;
+    line-height: 1.05;
+    color: var(--white);
+    margin-bottom: 0.5rem;
+  }
+  .header h1 span { color: var(--accent); }
+  .header-meta {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .header-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 13px;
+    color: var(--gray);
+  }
+  .header-meta-item strong { color: var(--white); font-weight: 500; }
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .badge-good { background: rgba(60,255,160,0.12); color: var(--green); border: 1px solid rgba(60,255,160,0.25); }
+  .badge-warn { background: rgba(255,209,102,0.12); color: var(--yellow); border: 1px solid rgba(255,209,102,0.25); }
+  .badge-bad  { background: rgba(255,77,77,0.12);  color: var(--red);    border: 1px solid rgba(255,77,77,0.25); }
+
+  /* LAYOUT */
+  .container { max-width: 1060px; margin: 0 auto; padding: 0 4rem 6rem; }
+  @media (max-width: 700px) { .container { padding: 0 1.5rem 4rem; } .header { padding: 2rem 1.5rem; } }
+
+  /* SECTION */
+  .section { margin-top: 4rem; }
+  .section-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.55rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 1.5rem;
+  }
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 3.5rem 0;
+  }
+
+  /* METRIC GRID */
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 2rem;
+  }
+  .metric-card {
+    background: var(--light);
+    padding: 1.4rem 1.5rem;
+  }
+  .metric-label {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin-bottom: 0.4rem;
+  }
+  .metric-value {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.9rem;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1;
+    margin-bottom: 0.35rem;
+  }
+  .metric-value.good { color: var(--green); }
+  .metric-value.warn { color: var(--yellow); }
+  .metric-value.bad  { color: var(--red); }
+  .metric-note {
+    font-size: 12px;
+    color: var(--gray);
+  }
+
+  /* RATIO TABLE */
+  .ratio-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  .ratio-table th {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gray);
+    padding: 0.6rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    font-weight: 400;
+  }
+  .ratio-table td {
+    padding: 0.8rem 1rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+  }
+  .ratio-table tr:last-child td { border-bottom: none; }
+  .ratio-table td:first-child { color: var(--gray); font-size: 13px; }
+  .ratio-table td:nth-child(2) { font-family: 'Syne', sans-serif; font-weight: 600; font-size: 1rem; color: var(--white); }
+  .ratio-table td:nth-child(3) { font-size: 12px; color: var(--gray); }
+
+  /* BAR */
+  .bar-row { margin-bottom: 1.2rem; }
+  .bar-label { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 0.35rem; }
+  .bar-label span:first-child { color: var(--white); }
+  .bar-label span:last-child { color: var(--gray); font-size: 12px; }
+  .bar-track {
+    height: 6px;
+    background: rgba(255,255,255,0.07);
+    border-radius: 100px;
+    overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%;
+    border-radius: 100px;
+    background: var(--accent);
+    transition: width 0.6s ease;
+  }
+  .bar-fill.blue  { background: #5b9cf6; }
+  .bar-fill.coral { background: var(--accent2); }
+  .bar-fill.green { background: var(--green); }
+  .bar-fill.gray  { background: #555; }
+
+  /* VERDICT CARDS */
+  .verdict-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+  .verdict-card {
+    background: var(--light);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.4rem 1.5rem;
+    position: relative;
+  }
+  .verdict-card.good { border-left: 3px solid var(--green); }
+  .verdict-card.warn { border-left: 3px solid var(--yellow); }
+  .verdict-card.bad  { border-left: 3px solid var(--red); }
+  .verdict-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 0.5rem;
+  }
+  .verdict-body {
+    font-size: 13.5px;
+    color: rgba(247,245,240,0.65);
+    line-height: 1.65;
+  }
+
+  /* COMPETITOR TABLE */
+  .comp-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+  }
+  .comp-table th {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gray);
+    padding: 0.6rem 0.8rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    font-weight: 400;
+  }
+  .comp-table td {
+    padding: 0.9rem 0.8rem;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  .comp-table tr.you { background: rgba(212,245,60,0.04); }
+  .comp-table tr.you td:first-child { color: var(--accent); font-weight: 600; }
+  .comp-table td:first-child { color: var(--white); white-space: nowrap; }
+  .comp-table td { color: rgba(247,245,240,0.7); }
+
+  /* ACTION ITEMS */
+  .action-list { list-style: none; }
+  .action-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.1rem 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .action-list li:last-child { border-bottom: none; }
+  .action-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--black);
+    background: var(--accent);
+    width: 22px;
+    height: 22px;
+    min-width: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1px;
+  }
+  .action-text { color: rgba(247,245,240,0.8); }
+  .action-text strong { color: var(--white); font-weight: 500; }
+
+  /* SCORE RING */
+  .score-section {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    flex-wrap: wrap;
+    margin-bottom: 2.5rem;
+  }
+  .score-ring {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    flex-shrink: 0;
+  }
+  .score-ring svg { width: 120px; height: 120px; }
+  .score-ring-label {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .score-ring-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.7rem;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .score-ring-sub {
+    font-size: 10px;
+    color: var(--gray);
+    margin-top: 2px;
+  }
+  .score-breakdown { flex: 1; min-width: 240px; }
+
+  /* HIGHLIGHT QUOTE */
+  .highlight {
+    border-left: 3px solid var(--accent);
+    padding: 1rem 1.5rem;
+    background: rgba(212,245,60,0.04);
+    border-radius: 0 8px 8px 0;
+    font-size: 14px;
+    color: rgba(247,245,240,0.75);
+    margin: 1.5rem 0;
+    line-height: 1.7;
+  }
+  .highlight strong { color: var(--accent); font-weight: 500; }
+
+  /* FOOTER */
+  .footer {
+    border-top: 1px solid var(--border);
+    margin-top: 5rem;
+    padding: 2rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: var(--gray);
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  @media (max-width: 700px) { .footer { padding: 2rem 1.5rem; } }
+
+  /* TAG */
+  .tag {
+    display: inline-block;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 2px 10px;
+    font-size: 12px;
+    color: var(--gray);
+    margin: 2px;
+  }
+
+  /* RISK BOX */
+  .risk-box {
+    background: rgba(255,77,77,0.06);
+    border: 1px solid rgba(255,77,77,0.2);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+  }
+  .risk-box-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--red);
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .risk-box ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .risk-box ul li {
+    font-size: 13.5px;
+    color: rgba(247,245,240,0.7);
+    padding-left: 1rem;
+    position: relative;
+  }
+  .risk-box ul li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--red);
+  }
+
+  /* OPPORTUNITY BOX */
+  .opp-box {
+    background: rgba(60,255,160,0.04);
+    border: 1px solid rgba(60,255,160,0.15);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-top: 1rem;
+  }
+  .opp-box-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--green);
+    margin-bottom: 0.75rem;
+  }
+  .opp-box ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .opp-box ul li {
+    font-size: 13.5px;
+    color: rgba(247,245,240,0.7);
+    padding-left: 1rem;
+    position: relative;
+  }
+  .opp-box ul li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--green);
+  }
+
+  p { margin-bottom: 0.85rem; color: rgba(247,245,240,0.75); font-size: 14px; }
+  p:last-child { margin-bottom: 0; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-label">Raport audytu · Maj 2026</div>
+  <h1>Audit Instagram<br><span>@adambartnikinsta</span></h1>
+  <div class="header-meta">
+    <div class="header-meta-item">Obserwujący: <strong>3 010</strong></div>
+    <div class="header-meta-item">Posty: <strong>123</strong></div>
+    <div class="header-meta-item">Zasięg (30 dni): <strong>414 169</strong></div>
+    <div class="header-meta-item">Nisza: <strong>Biznes Online / Mentoring</strong></div>
+    <div class="header-meta-item"><span class="badge badge-warn">Potencjał niewyorzystany</span></div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ==================== 1. OGÓLNA OCENA ==================== -->
+  <div class="section">
+    <div class="section-label">01</div>
+    <div class="section-title">Ogólna ocena konta</div>
+
+    <div class="score-section">
+      <div class="score-ring">
+        <svg viewBox="0 0 120 120">
+          <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="10"/>
+          <circle cx="60" cy="60" r="50" fill="none" stroke="#d4f53c" stroke-width="10"
+            stroke-dasharray="314" stroke-dashoffset="94"
+            stroke-linecap="round" transform="rotate(-90 60 60)"/>
+        </svg>
+        <div class="score-ring-label">
+          <div class="score-ring-num">7/10</div>
+          <div class="score-ring-sub">ogólnie</div>
+        </div>
+      </div>
+      <div class="score-breakdown">
+        <div class="bar-row">
+          <div class="bar-label"><span>Zasięg i dystrybucja</span><span>9/10</span></div>
+          <div class="bar-track"><div class="bar-fill green" style="width:90%"></div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label"><span>Zaangażowanie</span><span>6/10</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:60%"></div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label"><span>Bio i profil</span><span>5/10</span></div>
+          <div class="bar-track"><div class="bar-fill coral" style="width:50%"></div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label"><span>Zaufanie i autorytet</span><span>6/10</span></div>
+          <div class="bar-track"><div class="bar-fill blue" style="width:60%"></div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label"><span>Konwersja na sprzedaż</span><span>4/10</span></div>
+          <div class="bar-track"><div class="bar-fill coral" style="width:40%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="highlight">
+      <strong>Główna diagnoza:</strong> Twoje Reelsy generują ogromny zasięg organiczny — 834 tys. wyświetleń od 3 tys. followersów to wynik klasy "virality machine". Problem polega na tym, że ta maszyna nie sprzedaje. Profil wygląda jak konto lifestyle/rozrywkowe, a nie jak profil mentora, który pobiera pieniądze za wiedzę. Luka między zasięgiem a konwersją jest największym problemem do rozwiązania.
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ==================== 2. METRYKI ==================== -->
+  <div class="section">
+    <div class="section-label">02</div>
+    <div class="section-title">Metryki kluczowe — ostatnie 30 dni</div>
+
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-label">Wyświetlenia</div>
+        <div class="metric-value good">834K</div>
+        <div class="metric-note">99,1% z Reels</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Konta dotknięte</div>
+        <div class="metric-value good">414K</div>
+        <div class="metric-note">97,7% nie-followersi</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Interakcje</div>
+        <div class="metric-value warn">10 201</div>
+        <div class="metric-note">74,3% nie-followersi</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Konta zaangażowane</div>
+        <div class="metric-value warn">6 643</div>
+        <div class="metric-note">z 414K dotkniętych</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Wizyty profilu</div>
+        <div class="metric-value warn">4 508</div>
+        <div class="metric-note">tylko 1,1% z zasięgu</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Kliknięcia linku</div>
+        <div class="metric-value bad">91</div>
+        <div class="metric-note">2% z wizyt profilu</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ==================== 3. RATIOS ==================== -->
+  <div class="section">
+    <div class="section-label">03</div>
+    <div class="section-title">Analiza ratios — widoki vs. zaangażowanie</div>
+
+    <p>Ratios mówią, jak efektywnie zamieniasz wyświetlenia w działanie. Branżowe benchmarki dla twórców biznesowych 2–10K followersów zamieszczono dla porównania.</p>
+
+    <table class="ratio-table" style="margin-top:1.2rem;">
+      <thead>
+        <tr>
+          <th>Metryka</th>
+          <th>Twój wynik</th>
+          <th>Benchmark (nisza biznes PL)</th>
+          <th>Ocena</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Współczynnik zaangażowania (interakcje / wyświetlenia)</td>
+          <td>1,22%</td>
+          <td>1,5–3%</td>
+          <td><span class="badge badge-warn">Poniżej średniej</span></td>
+        </tr>
+        <tr>
+          <td>Wizyty profilu / wyświetlenia</td>
+          <td>0,54%</td>
+          <td>1–2%</td>
+          <td><span class="badge badge-bad">Słaby CTA w filmach</span></td>
+        </tr>
+        <tr>
+          <td>Kliknięcia linku / wizyty profilu</td>
+          <td>2,0%</td>
+          <td>5–10%</td>
+          <td><span class="badge badge-bad">Bio nie konwertuje</span></td>
+        </tr>
+        <tr>
+          <td>Nowi followersi / konta dotknięte</td>
+          <td>~0,7%</td>
+          <td>1–2%</td>
+          <td><span class="badge badge-warn">Profil nie przekonuje</span></td>
+        </tr>
+        <tr>
+          <td>Zasięg / followersi (viral ratio)</td>
+          <td>137x</td>
+          <td>5–20x</td>
+          <td><span class="badge badge-good">Wybitny</span></td>
+        </tr>
+        <tr>
+          <td>Top Reel (630K views) vs. avg Reel</td>
+          <td>~80x powyżej avg</td>
+          <td>—</td>
+          <td><span class="badge badge-good">Hit jednorazowy</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="highlight" style="margin-top:1.5rem;">
+      <strong>Kluczowy wniosek:</strong> Twoje filmy "wyrzucają" ludzi na profil zbyt rzadko. Na 834 tys. wyświetleń tylko 4 508 osób odwiedziło profil — to 0,54%. Dobry twórca sprzedający mentoring powinien mieć 1,5–2%. Oznacza to, że CTA wewnątrz filmów jest albo zbyt słabe, albo zbyt późne, albo filmy przyciągają niewłaściwą osobę.
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ==================== 4. TREŚĆ ==================== -->
+  <div class="section">
+    <div class="section-label">04</div>
+    <div class="section-title">Analiza treści — co działa, co nie</div>
+
+    <p>Na podstawie danych "Top content by views" i "Top content by interactions":</p>
+
+    <div style="margin-top:1.2rem;">
+      <div class="bar-row">
+        <div class="bar-label"><span>Reel "Zawody, które będą zarabiać miliony do 2030" (16 maj)</span><span>630K wyświetleń · 6,1K interakcji</span></div>
+        <div class="bar-track"><div class="bar-fill green" style="width:100%"></div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label"><span>Reel "8 rzeczy, które kobiety zauważają…" (7 maj)</span><span>63,9K wyświetleń · 131 interakcji</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:10%"></div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label"><span>Reel "Kiedy zdajesz sobie sprawę…" (23 maj)</span><span>8,8K wyświetleń · 46 interakcji</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:1.4%"></div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label"><span>Reel "7 modeli biz online" (28 kwi)</span><span>6,8K wyświetleń · 141 interakcji</span></div>
+        <div class="bar-track"><div class="bar-fill blue" style="width:1.1%"></div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label"><span>Reel "Czekam na idealny moment…" (6 maj)</span><span>4,7K wyświetleń · 98 interakcji</span></div>
+        <div class="bar-track"><div class="bar-fill coral" style="width:0.7%"></div></div>
+      </div>
+    </div>
+
+    <div class="verdict-grid" style="margin-top:1.5rem;">
+      <div class="verdict-card bad">
+        <div class="verdict-title">Problem #1 — Treść nie-niszowa bije treść niszową</div>
+        <div class="verdict-body">Twój viral hit (630K) to "Zawody do 2030" — temat generalny, klikalny przez każdego. Reele biznesowe mają 10–100x mniej wyświetleń. To sygnał, że przyciągasz ciekawską publiczność, a nie Twoją idealną grupę docelową.</div>
+      </div>
+      <div class="verdict-card warn">
+        <div class="verdict-title">Problem #2 — "8 rzeczy kobiety zauważają u mężczyzn"</div>
+        <div class="verdict-body">63,9K wyświetleń, ale tylko 131 interakcji i prawdopodobnie zero nowych klientów. To treść relacyjna/rozrywkowa — całkowicie poza niszą. Buduje zasięg bez wartości komercyjnej.</div>
+      </div>
+      <div class="verdict-card good">
+        <div class="verdict-title">Co działa — treść "prokrastynacja i excuses"</div>
+        <div class="verdict-body">Reel o czekaniu na "idealny moment" (4,7K wyświetleń, 98 interakcji) ma najlepszy ratio engagement/views z tej grupy. Treść uderzająca w ból emocjonalny Twojego klienta angażuje silniej niż viral clickbait.</div>
+      </div>
+      <div class="verdict-card warn">
+        <div class="verdict-title">Formaty — brak karuzeli</div>
+        <div class="verdict-body">Posty statyczne i karuzele = 0% interakcji wg danych. Albo ich nie ma, albo kompletnie nie działają. Karuzele w niszy edukacyjno-biznesowej mają avg. 3x wyższy engagement rate niż Reelsy na followersach.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ==================== 5. BIO ==================== -->
+  <div class="section">
+    <div class="section-label">05</div>
+    <div class="section-title">Analiza BIO</div>
+
+    <div style="background:var(--light); border:1px solid var(--border); border-radius:12px; padding:1.5rem; margin-bottom:1.5rem; font-family:'DM Sans',sans-serif;">
+      <div style="font-size:11px; color:var(--gray); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:0.75rem;">Obecne bio</div>
+      <div style="font-size:14px; line-height:1.8; color:var(--white);">
+        🥑 W stories życie w Meksyku<br>
+        Pomagam osobom na etacie zbudować biznes od 0 do 10tys/m w 90 dni.<br>
+        Z prawdą o porażkach,…<br>
+        <span style="color:var(--gray);">🔗 rebrand.ly/biznesonline and 2 more</span>
+      </div>
+    </div>
+
+    <div class="verdict-grid">
+      <div class="verdict-card bad">
+        <div class="verdict-title">Problem — Pierwsza linia to lifestyle</div>
+        <div class="verdict-body">"W stories życie w Meksyku" to pierwsza rzecz, którą widzi nowy odwiedzający. Nie mówi nic o tym, co zyska przez obserwowanie. Cenne 150 znaków marnowane na kontekst geograficzny.</div>
+      </div>
+      <div class="verdict-card warn">
+        <div class="verdict-title">Problem — "10tys/m" bez kontekstu</div>
+        <div class="verdict-body">"10 tys. miesięcznie" brzmi skromnie dla kogoś z Warszawy zarabiającego 8 tys. na etacie. Nie wiadomo czy to PLN czy EUR. Dla docelowego klienta to nie jest aspiracyjne.</div>
+      </div>
+      <div class="verdict-card warn">
+        <div class="verdict-title">Problem — "90 dni" bez dowodu</div>
+        <div class="verdict-body">Claim "90 dni" bez social proof bezpośrednio w bio brzmi jak obietnica. Konkurencja (Jasion: 127K) podaje konkretne liczby klientów w bio. Twoja konkurencja uwiarygadnia — Ty nie.</div>
+      </div>
+      <div class="verdict-card bad">
+        <div class="verdict-title">Problem — Brak CTA</div>
+        <div class="verdict-body">Bio kończy się urwanym zdaniem "Z prawdą o porażkach…" — brak żadnego call-to-action. Co ma zrobić osoba, która trafi na profil? Nie wie. Stąd 2% CTR na link.</div>
+      </div>
+    </div>
+
+    <div style="margin-top:1.5rem;">
+      <div class="opp-box">
+        <div class="opp-box-title">Propozycja nowego BIO</div>
+        <div style="background:rgba(0,0,0,0.3); border-radius:8px; padding:1.2rem; font-size:14px; line-height:1.8; color:var(--white); margin-bottom:1rem;">
+          <strong style="color:var(--accent);">Adam Bartnik | Biznes Online dla Etatowców</strong><br>
+          Pomagam pracownikom korporacji zbudować własne źródło dochodu online<br>
+          📌 300+ klientów · sprawdzony system · bez rzucania etatu<br>
+          👇 Darmowa konsultacja — kliknij link
+        </div>
+        <ul>
+          <li>Nazwa zawiera słowo kluczowe "Biznes Online dla Etatowców" — wyszukiwalne</li>
+          <li>Social proof (300+ klientów) w bio, nie tylko w Reelach</li>
+          <li>Jasny CTA z konkretnym działaniem</li>
+          <li>Usuwa lifestyle — zostawia wartość</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ==================== 6. PROFIL ==================== -->
+  <div class="section">
+    <div class="section-label">06</div>
+    <div class="section-title">Zdjęcie profilowe, grid i Highlights</div>
+
+    <div class="verdict-grid">
+      <div class="verdict-card warn">
+        <div class="verdict-title">Zdjęcie profilowe — dobra baza, słaba egzekucja</div>
+        <div class="verdict-body">Zdjęcie jest wyraźne i pokazuje twarz — to dobrze. Jednak jest zbyt ciemne i ma neutral/casual tło. W małym okręgu na telefonie traci czytelność. Porównaj z Jasionem (127K): jasne tło, wyraźny kontrast, pewny wyraz twarzy — "coach look". Powinna być mocniejsza, bardziej autorytatywna. Ideał: jasne tło (białe lub koloru marki), uśmiech pewności siebie, koszula lub marynarką — nie t-shirt.</div>
+      </div>
+      <div class="verdict-card warn">
+        <div class="verdict-title">Grid — spójność wizualna kuleje</div>
+        <div class="verdict-body">Pierwsze 4 pinezki (KIM JESTEM / CO ROBIĘ / JAK MOGĘ CI POMÓC + Zawody do 2030) to mocny start — logiczny "welcome flow". Problem: dalszy grid to chaos — różne style kadrowania, różne kolory napisów, brak koloru marki. Ktoś kto scrolluje Twój grid po wizycie nie czuje spójnej marki.</div>
+      </div>
+      <div class="verdict-card good">
+        <div class="verdict-title">Highlights — dobra struktura, słabe okładki</div>
+        <div class="verdict-body">Masz Lifestyle / O MNIE / Klienci / Olesya / George / Catherine / Philippa. Testimoniale jako oddzielne Highlights to świetny pomysł — buduje trust. Problem: okładki są zdjęciami, nie ikonami/brandowymi grafikami. Porównaj z konkurencją — wszyscy mają spójne okładki w kolorze marki.</div>
+      </div>
+      <div class="verdict-card bad">
+        <div class="verdict-title">Handle — @adambartnikinsta jest długi i niebrandowy</div>
+        <div class="verdict-body">"insta" w nazwie to sygnał, że konto powstało jako poboczne. Dla profesjonalnego mentora, który pobiera pieniądze za program, handle powinien być prostszy: @adambartnik lub @adam.bartnik. Zbyt długi handle trudniej zapamiętać i wpisać.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ==================== 7. AUDIENCE ==================== -->
+  <div class="section">
+    <div class="section-label">07</div>
+    <div class="section-title">Analiza odbiorców vs. idealny klient</div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-bottom:1.5rem;">
+      <div>
+        <div style="font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--gray); margin-bottom:1rem;">Twoja publiczność</div>
+        <div class="bar-row">
+          <div class="bar-label"><span>Kobiety</span><span>67,3%</span></div>
+          <div class="bar-track"><div class="bar-fill coral" style="width:67.3%"></div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label"><span>Mężczyźni</span><span>32,7%</span></div>
+          <div class="bar-track"><div class="bar-fill blue" style="width:32.7%"></div></div>
+        </div>
+        <div style="margin-top:1rem;">
+          <div class="bar-row">
+            <div class="bar-label"><span>25–34 lat</span><span>31,9%</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:63.8%"></div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label"><span>35–44 lat</span><span>25,5%</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:51%"></div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label"><span>18–24 lat</span><span>21,0%</span></div>
+            <div class="bar-track"><div class="bar-fill gray" style="width:42%"></div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label"><span>45–54 lat</span><span>12,3%</span></div>
+            <div class="bar-track"><div class="bar-fill gray" style="width:24.6%"></div></div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--gray); margin-bottom:1rem;">Idealny klient (etatowiec)</div>
+        <div class="bar-row">
+          <div class="bar-label"><span>Kobiety / Mężczyźni</span><span>50/50</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:50%"></div></div>
+        </div>
+        <div style="margin-top:1rem;">
+          <div class="bar-row">
+            <div class="bar-label"><span>28–42 lat (prime)</span><span>cel: 60%</span></div>
+            <div class="bar-track"><div class="bar-fill green" style="width:60%"></div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label"><span>18–24 (za młodzi na etat)</span><span>za wysoki</span></div>
+            <div class="bar-track"><div class="bar-fill bad" style="width:21%; background:var(--red)"></div></div>
+          </div>
+        </div>
+        <div style="margin-top:1rem; font-size:12.5px; color:rgba(247,245,240,0.5); line-height:1.7;">
+          Idealny klient: 30–42 lata, pracuje w korporacji lub na etacie specjalistycznym, zarabia 5–12K PLN/mc, czuje się "za dobry na etat", ma wiedzę ekspercką z branży.
+        </div>
+      </div>
+    </div>
+
+    <div class="risk-box">
+      <div class="risk-box-title">⚠ Misalignment odbiorców — krytyczny problem</div>
+      <ul>
+        <li>67,3% kobiet vs. etatowiec to statystycznie ~50/50 — nie ma dyskryminacji, ale Twoja treść ewidentnie przyciąga więcej kobiet niż oferta mentorska powinna (dominujące reele o relacjach, lifestyle)</li>
+        <li>21% odbiorców w wieku 18–24 to prawdopodobnie studenci lub osoby bez etatu — zbyt młodzi na Twój program "od etatu do biznesu"</li>
+        <li>Reele rozrywkowe (kobiety, relacje, mężczyźni) przyciągają właśnie te "złe" demograficznie osoby i zaburzają spójność konta</li>
+        <li>89,5% z Polski — dobrze, ale Meksyk w stories i "życie za granicą" może dezorientować polskiego klienta ("to nie dla mnie, nie wyjadę")</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ==================== 8. KONKURENCJA ==================== -->
+  <div class="section">
+    <div class="section-label">08</div>
+    <div class="section-title">Benchmarking vs. konkurencja</div>
+
+    <table class="comp-table">
+      <thead>
+        <tr>
+          <th>Konto</th>
+          <th>Followersi</th>
+          <th>Pozycjonowanie w bio</th>
+          <th>Styl treści</th>
+          <th>Siła autorytetu</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="you">
+          <td>@adambartnikinsta (Ty)</td>
+          <td>3 010</td>
+          <td>Ogólny — "od 0 do 10tys/m", brak liczb klientów w bio</td>
+          <td>Reelsy viral mix (biznes + lifestyle + relacje)</td>
+          <td>Highlights z klientami — dobry sygnał, słaba prezentacja</td>
+        </tr>
+        <tr>
+          <td>@jasion.darek</td>
+          <td>127 000</td>
+          <td>Precyzyjny — "Uczę ekspertów budować biznes edukacyjny online", 2309 postów = social proof ilości</td>
+          <td>Edukacyjne karuzele + Reelsy wyłącznie biznesowe — zero dywersji</td>
+          <td>Bardzo wysoki — konsekwencja przez lata, rozpoznawalność w niszy</td>
+        </tr>
+        <tr>
+          <td>@ogarniammarketing_</td>
+          <td>n/d (mikro)</td>
+          <td>Marketingowy — skupiony na social media i marketingu</td>
+          <td>Edukacja marketingowa, wskazówki praktyczne</td>
+          <td>Niszowy ekspert w węższym segmencie</td>
+        </tr>
+        <tr>
+          <td>@pawelskaluje</td>
+          <td>n/d</td>
+          <td>Skalowanie — "Paweł Skaluje" jako marka osobista z lejkiem (ManyChat, Zencal)</td>
+          <td>System sprzedaży zautomatyzowany, treść wspierająca lejek</td>
+          <td>Zaawansowana infrastruktura sprzedaży (Przelewy24, raty, automatyzacje)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="highlight" style="margin-top:1.5rem;">
+      <strong>Kluczowa luka vs. Jasion (127K):</strong> Jasion ma 42x więcej followersów, ale zaczął tak samo jak Ty. Różnica to konsekwencja niszy — przez lata nigdy nie wychylił się poza "biznes edukacyjny online". Twój zasięg per follower jest porównywalny lub wyższy — Twoja dystrybucja działa. Brakuje Ci zawężenia i powtarzalności przekazu.
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ==================== 9. ZAUFANIE ==================== -->
+  <div class="section">
+    <div class="section-label">09</div>
+    <div class="section-title">Zaufanie i autorytet — co blokuje sprzedaż mentoringu</div>
+
+    <p>Osoba, która trafia na Twój profil i rozważa wydanie pieniędzy na mentoring, szuka odpowiedzi na konkretne pytania:</p>
+
+    <div class="verdict-grid" style="margin-top:1rem;">
+      <div class="verdict-card good">
+        <div class="verdict-title">✓ Masz — Highlights z klientami</div>
+        <div class="verdict-body">Olesya, George, Catherine, Philippa jako oddzielne Highlights to dobry ruch. To pokazuje, że masz prawdziwych klientów. Jednak są to prawdopodobnie anglojęzyczne testimoniale — dla polskiego odbiorcy mają mniejszą siłę przekonywania.</div>
+      </div>
+      <div class="verdict-card good">
+        <div class="verdict-title">✓ Masz — Reelsy "o mnie"</div>
+        <div class="verdict-body">Pinned reele "KIM JESTEM" i "CO ROBIĘ" to dobry fundament. Dają kontekst nowemu odwiedzającemu.</div>
+      </div>
+      <div class="verdict-card bad">
+        <div class="verdict-title">✗ Brakuje — Polskich testimoniali</div>
+        <div class="verdict-body">Twoja publiczność to 89,5% Polska. Zagraniczne nazwiska klientów (Olesya, George, Catherine, Philippa) brzmią egzotycznie — i choć są realne, dla polskiego klienta "to ktoś inny, nie ja". Potrzebujesz polskich historii sukcesu eksponowanych na profilu.</div>
+      </div>
+      <div class="verdict-card bad">
+        <div class="verdict-title">✗ Brakuje — Liczby wyników w bio i postach</div>
+        <div class="verdict-body">Jasion ma "Uczę ekspertów..." — to pozycjonowanie. Ty masz "pomagam osobom na etacie" — to ogólnik. Nie ma informacji: ilu klientów? Jakie wyniki? Ile zarobiłeś sam? Bez liczb nie ma autorytetu.</div>
+      </div>
+      <div class="verdict-card bad">
+        <div class="verdict-title">✗ Brakuje — Ceny / oferty gdziekolwiek</div>
+        <div class="verdict-body">Link w bio prowadzi do strony, ale nikt nie wie, co tam znajdzie. Brak jasnego "DM słowo X" lub "kliknij by zobaczyć program". Potencjalny klient odchodzi, bo nie wie co kupić i za ile.</div>
+      </div>
+      <div class="verdict-card warn">
+        <div class="verdict-title">⚠ Meksyk jako kontekst — ryzyko</div>
+        <div class="verdict-body">Życie w Meksyku może fascynować, ale też dezorientować. Polak na etacie myśli: "on jest za granicą, to nie dla mnie". Lifestyle powinien wzmacniać ofertę ("dzięki temu systemowi pracuję z dowolnego miejsca"), nie zastępować ją.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ==================== 10. PLAN DZIAŁANIA ==================== -->
+  <div class="section">
+    <div class="section-label">10</div>
+    <div class="section-title">Plan działania — priorytety</div>
+
+    <p style="margin-bottom:1.5rem;">Posortowane od najwyższego wpływu na sprzedaż mentoringu do najniższego. Zacznij od góry.</p>
+
+    <ul class="action-list">
+      <li>
+        <div class="action-num">1</div>
+        <div class="action-text"><strong>Zmień bio natychmiast.</strong> Zastąp "W stories życie w Meksyku" konkretnym pozycjonowaniem z social proof i CTA. Szablon powyżej w punkcie 05. To jest jedyna zmiana, która może poprawić CTR na link z 2% do 5–8% bez żadnego nowego contentu.</div>
+      </li>
+      <li>
+        <div class="action-num">2</div>
+        <div class="action-text"><strong>Dodaj "DM słowo MENTORING" jako główny CTA</strong> w każdym filmie biznesowym zamiast "link w bio". Większość odbiorców nie klika linku — piszą DM. Narzędzia jak ManyChat (tak jak Paweł Skaluje) automatyzują odpowiedź. Twoje 91 kliknięć linku to sygnał, że ten funnel nie istnieje.</div>
+      </li>
+      <li>
+        <div class="action-num">3</div>
+        <div class="action-text"><strong>Nagraj i przypnij Reel z polskim klientem.</strong> Historia jednego klienta (przed/po, z Polski, z etatu do własnego przychodu) przypięta do profilu jest warta więcej niż 10 filmów edukacyjnych. Anglojęzyczne Highlights nie sprzedają polskiemu rynkowi.</div>
+      </li>
+      <li>
+        <div class="action-num">4</div>
+        <div class="action-text"><strong>Usuń lub ogranicz treści poza niszą.</strong> Reele o "8 rzeczach kobiet" i podobne — wyrzuć z profilu lub przenieś do archiwum. Przyciągają złą demografię i rozmywają markę. Jeden viral nie wart jest setek "złych" followersi, którzy nigdy nie kupią.</div>
+      </li>
+      <li>
+        <div class="action-num">5</div>
+        <div class="action-text"><strong>Stwórz spójną kolumnę kolorystyczną w gridzie.</strong> Wybierz 2 kolory marki (np. biały + limonkowy lub biały + czarny). Wszystkie napisy w filmach w tych kolorach. Grid stanie się rozpoznawalny w 3 sekundy — tak działa Jasion.</div>
+      </li>
+      <li>
+        <div class="action-num">6</div>
+        <div class="action-text"><strong>Zmień okładki Highlights</strong> na spójne ikony w kolorze marki. Narzędzie: Canva (darmowe). Czas: 30 minut. Efekt: profil wygląda jak 50K konto, nie 3K.</div>
+      </li>
+      <li>
+        <div class="action-num">7</div>
+        <div class="action-text"><strong>Wprowadź serię Reeli "Typ klienta"</strong> — np. "Dla kogo jest mój mentoring", "Jak wygląda praca ze mną", "Wyniki po 90 dniach". To content niszowy, który filtruje odpowiednich odbiorców i kwalifikuje ich do zakupu przed rozmową.</div>
+      </li>
+      <li>
+        <div class="action-num">8</div>
+        <div class="action-text"><strong>Rozważ zmianę handle</strong> na @adambartnik (jeśli wolny) lub @adam.bartnik. "Insta" w nazwie to relikt — nie wzmacnia wizerunku eksperta. Zmiana handle nie powoduje utraty followersów.</div>
+      </li>
+      <li>
+        <div class="action-num">9</div>
+        <div class="action-text"><strong>Zrób nowe zdjęcie profilowe.</strong> Jasne tło, pewny wyraz twarzy, lekko formalna stylizacja (nie garnitur — koszula wystarczy). Zdjęcie, które mówi "znam się na tym i jestem profesjonalistą". Obecne jest za ciemne i zbyt casual jak na mentora premium.</div>
+      </li>
+      <li>
+        <div class="action-num">10</div>
+        <div class="action-text"><strong>Zacznij Stories z pytaniami i ankietami 3x/tydzień.</strong> Stories to 0,9% Twojego zasięgu — jest tu ogromna przestrzeń. Ankiety ("Jesteś na etacie i chcesz coś zmienić? Tak/Nie") segmentują odbiorców i podbijają algorytm relacji. Followersi, którzy klikają w Stories, to Twoi najbardziej zaangażowani potencjalni klienci.</div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ==================== 11. PODSUMOWANIE ==================== -->
+  <div class="section">
+    <div class="section-label">11</div>
+    <div class="section-title">Podsumowanie — co Cię teraz kosztuje pieniądze</div>
+
+    <div class="risk-box">
+      <div class="risk-box-title">Główne bariery sprzedaży mentoringu RIGHT NOW</div>
+      <ul>
+        <li>Bio nie konwertuje — osoba trafiająca na profil nie wie co zrobić dalej (CTR linku: 2%)</li>
+        <li>Brak polskich testimoniali na widocznym miejscu — trust gap dla polskiego klienta</li>
+        <li>Treści poza niszą przyciągają złą demografię (kobiety 18–30, zainteresowania relacyjne) zamiast etatowców 30–42</li>
+        <li>Brak systemu DM/lejka — 10 201 interakcji miesięcznie, ale zero automatyzacji kwalifikującej kupujących</li>
+        <li>Profil wizualnie nie wygląda jak konto eksperta premium — chaos gridu zaniża postrzeganą wartość</li>
+      </ul>
+    </div>
+
+    <div class="opp-box" style="margin-top:1rem;">
+      <div class="opp-box-title">Twoje największe atuty</div>
+      <ul>
+        <li>834K wyświetleń od 3K followersów — viral ratio na poziomie topowych twórców w niszy</li>
+        <li>97,7% zasięgu z zewnątrz — algorytm Cię promuje, masz maszynę zasięgową</li>
+        <li>Struktura Highlights z klientami — dobry fundament zaufania, wymaga dopracowania</li>
+        <li>89,5% odbiorców z Polski — idealnie dopasowane do oferty w języku polskim</li>
+        <li>Wiek 25–44 = 57,4% — core grupy docelowej już jest na Twoim koncie</li>
+      </ul>
+    </div>
+
+    <div class="highlight" style="margin-top:1.5rem;">
+      <strong>Konkluzja:</strong> Masz silnik — nie masz kierownicy. Zasięg działa świetnie. Problemem nie jest Instagram, nie jest algorytm i nie jest liczba followersów. Problemem jest to, że profil nie jest skonstruowany pod sprzedaż. Wprowadź zmiany w bio, CTA i treści niszowej, a istniejący ruch zacznie konwertować. Nie potrzebujesz więcej wyświetleń — potrzebujesz lepszego lejka.
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <div>Audit przygotowany dla <strong style="color:var(--white);">@adambartnikinsta</strong> · Maj 2026</div>
+  <div>Dane: Instagram Insights · Porównanie: @jasion.darek, @ogarniammarketing_, @pawelskaluje</div>
+</div>
+
+</body>
+</html>
